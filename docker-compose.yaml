@@ -12,17 +12,17 @@ services:
       - 4000:4000
     networks:
       - js-net
-  js-frontend:
-    image: js-frontend
-    container_name: js-frontend
-    domainname: jellyfish-shop
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-    networks:
-      - js-net
+  # js-frontend:
+  #   image: js-frontend
+  #   container_name: js-frontend
+  #   domainname: jellyfish-shop
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - js-net
   js-database:
     image: mongo
     container_name: js-database
