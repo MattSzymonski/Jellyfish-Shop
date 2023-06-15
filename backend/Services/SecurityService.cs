@@ -43,7 +43,6 @@ namespace Backend.Services
             var accessTokenString = new JwtSecurityTokenHandler().WriteToken(accessToken);
 
             // Return tokens
-          
             return accessTokenString;
         }
 

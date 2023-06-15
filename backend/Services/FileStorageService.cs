@@ -18,18 +18,12 @@ namespace Backend.Services
         private readonly ApplicationSettings settings;
         private readonly ILogger<UsersService> logger;
 
-#if AZURE
-        private readonly BlobContainerClient azureBlobContainerClient;
-#endif 
-
         public FileStorageService(ApplicationSettings settings, ILogger<UsersService> logger)
         {
             this.logger = logger;
             this.settings = settings;
 
-#if AZURE
-            azureBlobContainerClient = new BlobContainerClient(settings.FileStorageSettings.AzureConnectionString, settings.FileStorageSettings.AzureContainerName);
-#endif
+
         }
 
         // --- Getting ---
@@ -54,70 +48,6 @@ namespace Backend.Services
             return await UploadInternal(folderPath, file);
         }
 
-#if AZURE 
-        private async Task<BlobDTO> DownloadInternal(string folderPath, string fileName) // TODO: Use path not only the name
-        {
-            try
-            {
-                BlobClient client = azureBlobContainerClient.GetBlobClient(fileName);
-
-                // Check if the file exists in the container
-                if (await client.ExistsAsync())
-                {
-                    var blobDTO = new BlobDTO 
-                    {
-                        Content = await client.OpenReadAsync(),
-                        Name = fileName,
-                        ContentType = (await client.DownloadContentAsync()).Value.Details.ContentType,
-                    };
-                    return blobDTO;
-                }
-            }
-            catch (RequestFailedException ex) when (ex.ErrorCode == BlobErrorCode.BlobNotFound) // TODO: Add better handling
-            {
-                logger.LogError($"File {fileName} was not found.");
-            }
-            catch (RequestFailedException ex)
-            {
-                logger.LogError($"Unhandled Exception. ID: {ex.StackTrace} - Message: {ex.Message}");
-            }
-
-            return null;
-        }
-
-        private async Task<BlobResponseDTO> UploadInternal(string folderPath, IFormFile file) // TODO: Use actual path 
-        {
-            BlobResponseDTO response = new();
-
-            try
-            {
-                BlobClient client = azureBlobContainerClient.GetBlobClient(file.FileName); 
-                await using (Stream stream = file.OpenReadStream())
-                    await client.UploadAsync(stream);
-
-                response.Status = $"File {file.FileName} Uploaded Successfully";
-                response.Error = false;
-                response.Blob.Uri = client.Uri.AbsoluteUri;
-                response.Blob.Name = client.Name;
-            }
-            catch (RequestFailedException ex) when (ex.ErrorCode == BlobErrorCode.BlobAlreadyExists)
-            {
-                logger.LogError($"File with name {file.FileName} already exists in container '{settings.FileStorageSettings.AzureContainerName}'");
-                response.Status = $"File with name {file.FileName} already exists";
-                response.Error = true;
-                return response;
-            } 
-            catch (RequestFailedException ex)
-            {
-                logger.LogError($"Unhandled Exception. ID: {ex.StackTrace} - Message: {ex.Message}");
-                response.Status = $"Unexpected error: {ex.StackTrace}";
-                response.Error = true;
-                return response;
-            }
-
-            return response;
-        }
-#else
         private async Task<Result<FileDownloadResponse>> DownloadInternal(string folderPath, string fileName) // TODO: No async needed
         {
             Result<FileDownloadResponse> result = new Result<FileDownloadResponse>();
@@ -176,7 +106,6 @@ namespace Backend.Services
                 return new Result<FileUploadResponseDTO>(Status.Failure, $"Unexpected error: {ex.StackTrace}. Check log with StackTrace ID.");    
             }
         }
-#endif
     }
 }
 

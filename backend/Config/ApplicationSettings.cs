@@ -32,7 +32,5 @@ namespace Backend
     public class FileStorageSettings
     {
         public string DebugFileStoragePath { get; set; }
-        public string AzureConnectionString { get; set; }
-        public string AzureContainerName { get; set; }
     }
 }
