@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Style applied to all elements of jellyfish-card class */
+  .jellyfish-card {
+    @apply 
+    w-[400px] p-4 m-4 bg-neutral-700 
+    text-secondary border-[0.25rem] border-accent
+    /* Rounded corners animation on hover */
+    rounded-lg hover:rounded-[2rem] transition-all duration-75
+    ;
+  }
+
+  /* Style applied to all img elements being */ 
+  /* children of jellyfish-card class element  */
+  .jellyfish-card img{
+    @apply 
+    rounded-lg my-6 m-auto
+    ;
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}

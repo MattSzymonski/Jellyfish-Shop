@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  js-backend:
+    image: js-backend
+    container_name: js-backend
+    domainname: jellyfish-shop
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    networks:
+      - js-net
+  # js-frontend:
+  #   image: js-frontend
+  #   container_name: js-frontend
+  #   domainname: jellyfish-shop
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - js-net
+  js-database:
+    image: mongo
+    container_name: js-database
+    restart: always # Restart container on failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017 # Map local port to container port
+    volumes: # Persistent storage
+      - ./database_volume:/data/db # Local volume
+      - ./config/database/init.js:/docker-entrypoint-initdb.d/init-mongo.js:ro # Setup script run on container start
+    networks:
+      - js-net
+  # js-nginx:
+  #   image: nginx:latest
+  #   container_name: js-nginx
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - ./volume/ssl_certificates:/etc/nginx/ssl:ro
+  #   restart: always
+  #   depends_on:
+  #     - js-backend
+  #     - js-frontend
+  #   networks:
+  #     - js-net
+networks:
+  js-net:
+    driver: bridge
