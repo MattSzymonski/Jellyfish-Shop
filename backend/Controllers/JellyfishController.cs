@@ -67,7 +67,7 @@ namespace Backend.Controllers
         // --- Endpoints ---
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<JellyfishDTO>> GetSingleJellyfish(string id)
+        public async Task<ActionResult<Result<JellyfishDTO>>> GetSingleJellyfish(string id)
         {
             // Call service
             var jellyfishResult = await jellyfishService.GetSingleJellyfish(id);

@@ -19,10 +19,10 @@ db = db.getSiblingDB('jellyfishShopMain');
 
 db.createCollection("users");
 db.users.insert([
-   { _id: ObjectId("606b498d982ca2c8da77e631"), Email: "c.po@pope.va", Password: "7312", FirstName: "Cap'n Carl", LastName: "Wojtylarr", RegistrationDate: ISODate("2005-04-02T21:37:00.000Z") },
-   { _id: ObjectId("606b498d982ca2c8da77e632"), Email: "reginald.bartholomew@mail.va", Password: "1234", FirstName: "Reginald", LastName: "Bartholomew", RegistrationDate: ISODate("2005-04-02T21:37:00.000Z") },
-   { _id: ObjectId("606b498d982ca2c8da77e633"), Email: "salt.mcgregor@mail.com", Password: "salty", FirstName: "Salt", LastName: "McGregor", RegistrationDate: ISODate("2023-05-06T17:48:19.872Z") },
-   { _id: ObjectId("606b498d982ca2c8da77e634"), Email: "t.se@mail.com", Password: "SailingTrains",  FirstName: "Thomas", LastName: "Steam Engine", RegistrationDate: ISODate("2023-05-06T17:48:19.872Z") },
+   { _id: ObjectId("606b498d982ca2c8da77e631"), Login: "c.po@pope.va", Password: "7312", FirstName: "Cap'n Carl", LastName: "Wojtylarr", RegistrationDate: ISODate("2005-04-02T21:37:00.000Z") },
+   { _id: ObjectId("606b498d982ca2c8da77e632"), Login: "reginald.bartholomew@mail.va", Password: "1234", FirstName: "Reginald", LastName: "Bartholomew", RegistrationDate: ISODate("2005-04-02T21:37:00.000Z") },
+   { _id: ObjectId("606b498d982ca2c8da77e633"), Login: "salt.mcgregor@mail.com", Password: "salty", FirstName: "Salt", LastName: "McGregor", RegistrationDate: ISODate("2023-05-06T17:48:19.872Z") },
+   { _id: ObjectId("606b498d982ca2c8da77e634"), Login: "t.se@mail.com", Password: "SailingTrains",  FirstName: "Thomas", LastName: "Steam Engine", RegistrationDate: ISODate("2023-05-06T17:48:19.872Z") },
 ]);
 
 db.createCollection("refreshTokens");

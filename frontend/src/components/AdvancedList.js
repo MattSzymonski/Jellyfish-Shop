@@ -21,7 +21,7 @@ const AdvancedList = () => {
         }
 
         const params = new URLSearchParams({
-            pagesize: 3,
+            pagesize: 5,
             pagenumber: currentPage
         })
 
@@ -31,11 +31,16 @@ const AdvancedList = () => {
 
         if (response.ok) {
             const data = await response.json(); // Whole response body (try printing it: "console.log(data);")
-            const { items, totalItemCount, totalPageCount } = data.data;
-            console.log(data);
-            setItems(items);
-            setTotalItemCount(totalItemCount);
-            setTotalPageCount(totalPageCount);
+            
+            if (data.status == "Success")
+            {
+                const { items, totalItemCount, totalPageCount } = data.data;
+                console.log(data);
+                setItems(items);
+                setTotalItemCount(totalItemCount);
+                setTotalPageCount(totalPageCount);
+            }
+       
         }
       } catch (error) {
         console.error('Error fetching data:', error);

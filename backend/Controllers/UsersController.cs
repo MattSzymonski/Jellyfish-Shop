@@ -38,7 +38,7 @@ namespace Backend.Controllers
             // Call service
             var loginResult = await usersService.LoginUser(loginRequestDTO);
     
-            if (loginResult.Status == Status.Failure) 
+            if (loginResult.Status == Status.Success) 
             {
                 logger.LogInformation($"User {loginRequestDTO.Login} has logged in successfully");
             }

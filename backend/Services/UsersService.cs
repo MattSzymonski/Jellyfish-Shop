@@ -66,7 +66,7 @@ namespace Backend.Services
 
             if (user != null) 
             {
-                if (user.Login == loginRequestDTO.Login && user.Password == loginRequestDTO.Password) 
+                if (user.Password == loginRequestDTO.Password) 
                 {
                     // Generate token
                     var token = securityService.GenerateTokens(user.Id, user.Login);
